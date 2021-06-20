@@ -62,6 +62,7 @@ class FirebaseService : FirebaseMessagingService() {
                 if (it) {
                     // This is Scheduled Notification, Schedule it
                     val scheduledTime = remoteMessage.data["scheduledTime"]
+                    Log.d("DIBUGGING_TAG", " scheduling alarm at: $scheduledTime")
                     scheduleAlarm(scheduledTime, title, message)
                 } else {
                     val alarm = Intent(this, AlertActivity::class.java)
@@ -95,6 +96,7 @@ class FirebaseService : FirebaseMessagingService() {
 //        notificationManager.notify(notificationID, notification)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleAlarm(
         scheduledTimeString: String?,
         title: String?,
@@ -111,10 +113,10 @@ class FirebaseService : FirebaseMessagingService() {
         // Parse Schedule time
         val scheduledTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             .parse(scheduledTimeString!!)
-
+        Log.d("DEBUGGING_TAG", "notification is setting at firebase: $scheduledTime")
         scheduledTime?.let {
             // With set(), it'll set non repeating one time alarm.
-            alarmMgr.set(
+            alarmMgr.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 it.time,
                 alarmIntent
