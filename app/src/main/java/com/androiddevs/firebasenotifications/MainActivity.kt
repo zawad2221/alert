@@ -4,11 +4,13 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -147,6 +149,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "invalid input", Toast.LENGTH_LONG).show()
         }
     }
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleAlarm(
         scheduledTimeString: String?,
         title: String?,
@@ -163,15 +166,16 @@ class MainActivity : AppCompatActivity() {
         // Parse Schedule time
         val scheduledTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             .parse(scheduledTimeString!!)
-
+        Log.d("DEBUGGING_TAG", "notification is setting at offline: $scheduledTime")
         scheduledTime?.let {
             // With set(), it'll set non repeating one time alarm.
-            alarmMgr.set(
+            alarmMgr.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 it.time,
                 alarmIntent
             )
         }
+
     }
 
     private fun initNumberPicker(){

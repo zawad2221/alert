@@ -10,6 +10,8 @@ import androidx.work.Data
 import android.content.BroadcastReceiver
 
 import com.androiddevs.firebasenotifications.ScheduledWorker.Companion.NOTIFICATION_TITLE
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NotificationBroadcastReceiver : BroadcastReceiver() {
 
@@ -17,6 +19,10 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
         intent?.let {
             val title = it.getStringExtra(NOTIFICATION_TITLE)
             val message = it.getStringExtra(NOTIFICATION_MESSAGE)
+
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val currentDate = sdf.format(Date()).toString()
+            Log.d("DEBUGGING_TAG", "alarm bell$currentDate")
 
             // Create Notification Data
             val notificationData = Data.Builder()
