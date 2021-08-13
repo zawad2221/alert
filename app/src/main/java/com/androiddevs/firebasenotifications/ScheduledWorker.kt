@@ -17,6 +17,7 @@ class ScheduledWorker(appContext: Context, workerParams: WorkerParameters) :
         // Get Notification Data
         val title = inputData.getString(NOTIFICATION_TITLE)
         val message = inputData.getString(NOTIFICATION_MESSAGE)
+        Log.d("DEBUGGING_TAG", "${javaClass.name} title: $title, message: $message")
 
         // Show Notification
         val alarm = Intent(applicationContext, AlertActivity::class.java)

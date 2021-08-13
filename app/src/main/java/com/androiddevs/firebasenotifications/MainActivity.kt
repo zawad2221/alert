@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
             val message = etMessage.text.toString()
             val recipientToken = etToken.text.toString()
             //val dateTime = date+" "+time
+            Log.d("DEBUGGING_TAG", "${javaClass.name} title: $title, message: $message")
             val dateTime = addTimeInCurrentDate(hoursNumberPicker.value,minutesNumberPicker.value,secondsNumberPicker.value)
 //            if(title.isNotEmpty() && message.isNotEmpty() && recipientToken.isNotEmpty() && date!=null && time!=null) {
 //                PushNotification(

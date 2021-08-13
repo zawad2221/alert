@@ -15,10 +15,12 @@ import java.util.*
 
 class NotificationBroadcastReceiver : BroadcastReceiver() {
 
+
     override fun onReceive(context: Context?, intent: Intent?) {
         intent?.let {
             val title = it.getStringExtra(NOTIFICATION_TITLE)
             val message = it.getStringExtra(NOTIFICATION_MESSAGE)
+            Log.d("DEBUGGING_TAG", "${javaClass.name} title: $title, message: $message")
 
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val currentDate = sdf.format(Date()).toString()

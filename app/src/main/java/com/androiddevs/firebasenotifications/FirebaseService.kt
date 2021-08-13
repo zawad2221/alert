@@ -49,11 +49,12 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         remoteMessage.data.isNotEmpty().let {
-            Log.d("TAG", "Message data payload: ${remoteMessage.data}")
+            Log.d("DEBUGGING_TAG", "Message data payload: ${remoteMessage.data}")
 
             // Get Message details
             val title = remoteMessage.data["title"]
             val message = remoteMessage.data["message"]
+            Log.d("DEBUGGING_TAG", "${javaClass.name} title: $title, message: $message")
 
 
             // Check whether notification is scheduled or not
@@ -62,7 +63,7 @@ class FirebaseService : FirebaseMessagingService() {
                 if (it) {
                     // This is Scheduled Notification, Schedule it
                     val scheduledTime = remoteMessage.data["scheduledTime"]
-                    Log.d("DIBUGGING_TAG", " scheduling alarm at: $scheduledTime")
+                    Log.d("DEBUGGING_TAG", " scheduling alarm at: $scheduledTime")
                     scheduleAlarm(scheduledTime, title, message)
                 } else {
                     val alarm = Intent(this, AlertActivity::class.java)
@@ -103,11 +104,12 @@ class FirebaseService : FirebaseMessagingService() {
         message: String?
     ) {
         val alarmMgr = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        Log.d("DEBUGGING_TAG", "${javaClass.name} schedule_alarm title: $title, message: $message")
         val alarmIntent =
             Intent(applicationContext, NotificationBroadcastReceiver::class.java).let { intent ->
                 intent.putExtra(NOTIFICATION_TITLE, title)
                 intent.putExtra(NOTIFICATION_MESSAGE, message)
-                PendingIntent.getBroadcast(applicationContext, 0, intent, 0)
+                PendingIntent.getBroadcast(applicationContext, Random.nextInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
             }
 
         // Parse Schedule time

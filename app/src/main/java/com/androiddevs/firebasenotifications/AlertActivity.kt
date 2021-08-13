@@ -39,6 +39,7 @@ class AlertActivity : AppCompatActivity() {
 
         getExtra()
         if(title!=null){
+            Log.d("DEBUGGING_TAG", "${javaClass.name} title: $title, message: $message")
             titleTextView.text = title
             messageTextView.text = message
         }
@@ -78,6 +79,11 @@ class AlertActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.d("DEBUGGING_TAG", "${javaClass.name} onNewIntent title: $title, message: $message")
     }
 
     private fun beepPlay(){
